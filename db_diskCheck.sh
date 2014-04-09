@@ -1,6 +1,12 @@
 #!/bin/bash
 # Author: csmunuku@gmail.com
-##########################################################################
+# The following script is a disk space checking and alerting script for Windows hosts.
+# It is a Bash (+Windows commands based) script run on a linux node
+# It remotely connects to the windows nodes where we have cygwin and ssh installed on all the Windows nodes.
+# we have password less ssh access to the Windows nodes from bastion host (Mgmt node) - by the virtue of deploying the ssh keys for the Application user.
+# The script loops through a set of windows nodes and checks the for the Free space available on the D:drive. 
+# It sends out an email to the team if the Disk space is below 2 GB.
+############################################################################################################################################################
 ts="`date '+%Y%m%d_%H%M%S'`"
 ToAddress="csmunuku@gmail.com"
 CCAddresses="csmunuku@gmail.com"
