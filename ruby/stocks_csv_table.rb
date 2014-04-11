@@ -1,4 +1,5 @@
 #!/usr/bin/ruby
+# Author: csmunuku@gmail.com
 # Get's Stock information for the stocks provided on command line
 # Download's information from Yahoo Finance Site
 # Gets a csv and displays it as a table.
