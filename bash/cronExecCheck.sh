@@ -1,6 +1,6 @@
 #!/bin/bash
 # AUTHOR: csmunuku@gmail.com
-for i in `crontab -l | grep -v "^#" | grep -v '^$' | egrep -v "bash|perl|ruby|sh|python|java" | cut -d' ' -f6 | sort -u`
+for i in `crontab -l | grep -v "^#" | grep -v '^$' | egrep -v "bash |perl |ruby |sh |python |java |find  " | cut -d' ' -f6 | sort -u`
 do
   my_script=`eval "echo $i"`
   if [ -f ${my_script} ]; then
