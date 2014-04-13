@@ -37,8 +37,21 @@ tempVarIdleWorkers=0
 totalIdleWorkers=0
 averageIdleWorkers=0
 
-SCRIPTSIGNATURE="Script Signature: `uname -n`:${0}"
-
+################################################
+# Script Signature function
+scriptDir=`dirname ${0}`
+scriptName=`basename ${0}`
+if [ ${scriptDir} = "." ]; then
+    scriptDir=`pwd`
+fi
+scriptSignature(){
+      scriptSign="${scriptDir}/${scriptName}"
+      echo "####################################################################################################"
+      echo "Script Signature: `uname -n`: ${scriptSign}"
+      echo "####################################################################################################"
+}
+################################################
+#SCRIPTSIGNATURE="Script Signature: `uname -n`:${0}"
 
 if [ ! -f "${WEBSERVERS}" ]; then
    echo "Please make sure this file ${WEBSERVERS} exists and then re-run the script."
@@ -97,7 +110,7 @@ echo -e "Average Requests Currently Processed = $averageReqCurrProcessed \n"  >>
 echo -e "Average Idle Workers = $averageIdleWorkers \n"  >> ${TempFile}
 echo -e "-----------------------------------------------------------------------------------------------" >> ${TempFile}
 echo -e "`date`" >> ${TempFile}
-echo -e "${SCRIPTSIGNATURE} " >> ${TempFile}
+scriptSignature >> ${TempFile}
 echo -e "-----------------------------------------------------------------------------------------------" >> ${TempFile}
 
 # Sending email if SubjectMsg is Not Empty.
