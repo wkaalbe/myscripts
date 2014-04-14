@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# AUTHOR: csmunuku@gmail.com
+####################################################################################################
 import pexpect
 import getpass
 import sys
@@ -9,7 +11,8 @@ print sys.argv[1]
 print sys.argv[2]
 
 localfile = sys.argv[2]
-remotefile = "/export/home/inquira/test.sh"
+# name you want to give to the remote file.  can be made as an argument as well..
+remotefile = "/tmp/test.sh"
 execRemoteCommand = "sh test.sh"
 PASSWORD=".ssword.*"
 
@@ -82,6 +85,7 @@ def ssh_command (user, host, password, command):
     return child
 
 
+# Copy the file in first iteration
 for host in open(sys.argv[1]):         # Use file iterators
     print(host)
 #    os.system('scp "%s" "%s:%s"' % (localfile, line, remotefile) )
@@ -89,9 +93,9 @@ for host in open(sys.argv[1]):         # Use file iterators
     child.expect(pexpect.EOF)
     print child.before
 
+# Execute the command in the second iteration
 for host in open(sys.argv[1]):         # Use file iterators
     print(host)
-#    os.system('scp "%s" "%s:%s"' % (localfile, line, remotefile) )
     child = ssh_command (user, host, password, execRemoteCommand)
     child.expect(pexpect.EOF)
     print child.before
