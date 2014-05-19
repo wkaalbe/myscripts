@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# AUTHOR: Chandra Munukutla
 ''' This script takes 2 arguments. 1st is a file containing the hosts list.
     2nd is command(s) within double quotes that needs to be executed on the remote host.
     At the prompts please enter the user's password.
