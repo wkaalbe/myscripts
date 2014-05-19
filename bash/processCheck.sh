@@ -6,17 +6,27 @@ CCAddresses="vchitupl@gmail.com"
 
 check_tomcat()
 {
-   if  [ `ps -ef | grep java | grep -i "org.apache.catalina.startup.Bootstrap" | grep -cv grep` -ne 1 ]; then
+   if  [ `ps -ef | grep java | grep -i "org.apache.catalina.startup.Bootstrap" | grep -cv grep` -ne $1 ]; then
           echo "Tomcat on Host - `hostname` is DOWN!! - `date`" | /bin/mail "${ToAddress}" -s "ERROR: Tomcat Down on - `hostname`" -c "${CCAddresses}"
    else
        echo "Tomcat - Running"
    fi
 }
 #######################################
+check_jboss()
+{
+   if  [ `ps -ef | grep java | grep -i "org.jboss.Main" | grep -cv grep` -ne $1 ]; then
+          echo "JBoss on Host - `hostname` is DOWN!! - `date`" | /bin/mail "${ToAddress}" -s "ERROR: JBoss Down on - `hostname`" -c "${CCAddresses}"
+   else
+       echo "JBoss - Running"
+   fi
+}
+
+#######################################
 
 check_jetty()
 {
-   if  [ `ps -ef | grep java | grep -i "jetty-6.1.14/start.jar" | grep -cv grep` -ne 1 ]; then
+   if  [ `ps -ef | grep java | grep -i "jetty-6.1.14/start.jar" | grep -cv grep` -ne $1 ]; then
           echo "Jetty on Host - `hostname` is DOWN!! - `date`" | /bin/mail "${ToAddress}" -s "ERROR: `hostname` - Jetty Process is DOWN!!" -c "${CCAddresses}"
    else
        echo "Jetty - Running"
@@ -26,7 +36,7 @@ check_jetty()
 
 check_apache()
 {
-   if [ `ps -ef | grep httpd | grep root | grep -cv grep` -ne 1 ]; then
+   if [ `ps -ef | grep httpd | grep root | grep -cv grep` -ne $1 ]; then
        echo "Apache on Host - `hostname` is DOWN!! - `date`" | /bin/mail "${ToAddress}" -s "ERROR: `hostname` - Apache on host is DOWN!!" -c "${CCAddresses}"
    else
        echo "Apache - Running"
@@ -36,7 +46,7 @@ check_apache()
 
 check_mysql()
 {
-   if [[ `ps -ef | grep mysqld | grep -v mysqld_safe | grep -cv grep` -ne 1 ]] && [[ `ps -ef | grep mysqld_safe | grep -cv grep` -ne 1 ]]; then
+   if [[ `ps -ef | grep mysqld | grep -v mysqld_safe | grep -cv grep` -ne $1 ]] && [[ `ps -ef | grep mysqld_safe | grep -cv grep` -ne $1 ]]; then
        echo "MySQL on Host - `hostname` is DOWN!! - `date`" | /bin/mail "${ToAddress}" -s "ERROR: `hostname` - MySQL on host is DOWN!!" -c "${CCAddresses}"
    else
        echo "MySQL - Running"
@@ -46,7 +56,7 @@ check_mysql()
 
 check_weblogic()
 {
- if [ `ps -ef | grep java | grep weblogic.Server | grep -cv grep` -gt 0 ]; then
+ if [ `ps -ef | grep java | grep weblogic.Server | grep -cv grep` -eq $1 ]; then
     echo -e "PID \t WebLogic ServerName"
     echo -e "#######\t ########################"
     for i in `ps -ef | grep java | grep weblogic.Server | grep -v grep | awk '{print $2}'`
@@ -66,7 +76,7 @@ check_weblogic()
 check_nodemanager()
 {
  nm_process_count="`ps -ef | grep weblogic.NodeManager | grep -cv grep`"
- if [ "$nm_process_count" -eq 1 ]; then
+ if [ "$nm_process_count" -eq $1 ]; then
     echo
     echo "`ps -ef | grep weblogic.NodeManager | grep -v grep | awk '{print $2}'` - is PID for NodeManager Process"
     echo
@@ -82,25 +92,15 @@ check_nodemanager()
 }
 
 #######################################
-check_jboss()
-{
-   if  [ `ps -ef | grep java | grep -i "org.jboss.Main" | grep -cv grep` -ne 1 ]; then
-          echo "JBoss on Host - `hostname` is DOWN!! - `date`" | /bin/mail "${ToAddress}" -s "ERROR: JBoss Down on - `hostname`" -c "${CCAddresses}"
-   else
-       echo "JBoss - Running"
-   fi
-}
-
-#######################################
 #######################################
 ## Calling the functions
 #######################################
 #######################################
 
-check_tomcat
-check_jetty
-check_apache
-check_mysql
-check_weblogic
-check_nodemanager
-check_jboss
+check_tomcat 3
+check_jboss 9
+check_jetty 2
+check_apache 1
+check_mysql 1
+check_weblogic 5
+check_nodemanager 1
