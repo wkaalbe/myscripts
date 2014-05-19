@@ -82,6 +82,17 @@ check_nodemanager()
 }
 
 #######################################
+check_jboss()
+{
+   if  [ `ps -ef | grep java | grep -i "org.jboss.Main" | grep -cv grep` -ne 1 ]; then
+          echo "JBoss on Host - `hostname` is DOWN!! - `date`" | /bin/mail "${ToAddress}" -s "ERROR: JBoss Down on - `hostname`" -c "${CCAddresses}"
+   else
+       echo "JBoss - Running"
+   fi
+}
+
+#######################################
+#######################################
 ## Calling the functions
 #######################################
 #######################################
@@ -92,3 +103,4 @@ check_apache
 check_mysql
 check_weblogic
 check_nodemanager
+check_jboss
