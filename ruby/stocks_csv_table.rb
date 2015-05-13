@@ -3,7 +3,9 @@
 # Get's Stock information for the stocks provided on command line
 # Download's information from Yahoo Finance Site
 # Gets a csv and displays it as a table.
+# This is my fork of csmunuki/myscripts/ruby repository.
 ####################################################################### 
+require 'rubygems'
 require 'open-uri'
 require 'csv'
 require 'text-table'
